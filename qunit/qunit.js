@@ -576,9 +576,17 @@ function validTest( name ) {
 	return run;
 }
 
+function unescapeHTML(html) {
+   var htmlNode = document.createElement("DIV");
+   htmlNode.innerHTML = html;
+   if(htmlNode.innerText)
+      return htmlNode.innerText; // IE
+   return htmlNode.textContent; // FF
+}
+
 function push(result, actual, expected, message) {
 	message = message || (result ? "okay" : "failed");
-	QUnit.ok( result, result ? message + ": " + expected : message + ", expected: " + QUnit.jsDump.parse(expected) + " result: " + QUnit.jsDump.parse(actual) );
+	QUnit.ok( result, result ? message + ": " + expected : message + ", expected: " + unescapeHTML(QUnit.jsDump.parse(expected)) + " result: " + unescapeHTML(QUnit.jsDump.parse(actual)) );
 }
 
 function synchronize( callback ) {
